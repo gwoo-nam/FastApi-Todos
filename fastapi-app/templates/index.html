@@ -3,10 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
+    <title>To-Do List v2.0.0</title>
+    <style>
+        /* 기존 구조를 유지하면서 살짝만 추가한 스타일 */
+        body {
+            font-family: sans-serif; /* 기본 폰트를 깔끔하게 변경 */
+            margin: 20px;
+        }
+        h1 {
+            color: blue; /* 헤더 글 색상을 파란색으로 변경 */
+        }
+        li {
+            background-color: #f4f4f4; /* 리스트 배경을 연한 회색으로 */
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #3498db; /* 왼쪽에 파란색 포인트 줄 추가 */
+        }
+        button {
+            margin-left: 5px;
+            padding: 3px 8px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-    <h1>To-Do List</h1>
+    <h1>To-Do List v2.0.0</h1>
     <ul id="todo-list"></ul>
     <form id="todo-form">
         <input type="text" id="title" placeholder="Title" required>
