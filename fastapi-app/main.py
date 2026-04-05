@@ -66,6 +66,11 @@ def delete_todo(todo_id: int):
 # HTML 파일 서빙
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    with open("templates/index.html", "r", encoding="utf-8") as file:
+    # 현재 실행 중인 main.py 파일의 위치를 절대 경로로 가져옵니다.
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # base_dir에 'templates/index.html'을 안전하게 연결합니다.
+    template_path = os.path.join(base_dir, "templates", "index.html")
+    
+    with open(template_path, "r", encoding="utf-8") as file:
         content = file.read()
     return HTMLResponse(content=content)
