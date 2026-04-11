@@ -14,7 +14,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 필요한 소스 코드 복사 (보안 핫스팟 2번 관련)
-COPY . .
+COPY main.py todo.json ./
+COPY templates/ ./templates/
 
 # [보안 조치 1] 작업 디렉토리의 모든 파일 소유권을 appuser에게 부여
 RUN chown -R appuser:appuser /app
