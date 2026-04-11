@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://163.239.77.79:8002"
+BASE_URL = "http://163.239.77.79:5001"
 
 
 def test_deployed_get_todos():
