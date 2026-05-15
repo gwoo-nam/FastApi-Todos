@@ -1,0 +1,17 @@
+name: Personal VDI Deploy Test
+
+on:
+  push:
+    branches: [ "main" ] # 개인 레포지토리의 기본 브랜치명으로 맞추세요
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build and Run with Docker Compose
+        run: |
+          docker-compose down
+          docker-compose up -d --build
