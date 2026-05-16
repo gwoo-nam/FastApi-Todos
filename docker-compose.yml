@@ -67,7 +67,7 @@ services:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      #- /var/lib/docker/:/var/lib/docker:ro
     networks:
       - loadtest-net # 추가됨
 

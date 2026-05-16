@@ -1,0 +1,17 @@
+name: Team Server CD Test
+
+on:
+  push:
+    branches: [ "main" ]  # 본인 개인 레포의 메인 브랜치명으로 수정 (main 또는 master)
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # 방금 우리가 띄운 팀 서버 러너가 이 명령을 낚아챕니다!
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Test Docker Run
+        run: |
+          echo "VDI 팀 서버에 정상적으로 도커 명령이 전달되었습니다!"
+          docker ps
