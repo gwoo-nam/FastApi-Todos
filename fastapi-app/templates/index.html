@@ -3,312 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Modern To-Do List</title>
+    <title>조선 일과표</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ── CSS 변수 (라이트 / 다크) ── */
+        /* ── CSS 변수 (조선시대 라이트 / 다크) ── */
         :root {
-            --bg:           #f4f7fb;
-            --surface:      #ffffff;
-            --surface2:     #f8fafc;
-            --primary:      #4f46e5;
-            --primary-h:    #4338ca;
-            --primary-soft: rgba(79, 70, 229, 0.1);
-            --text:         #0f172a;
-            --text-2:       #475569;
-            --text-muted:   #94a3b8;
-            --border:       #e2e8f0;
-            --shadow-sm:    0 2px 10px rgba(0,0,0,.04);
-            --shadow:       0 10px 30px rgba(0,0,0,.06);
-            --shadow-lg:    0 24px 60px rgba(0,0,0,.12);
-            --radius:       18px;
-            --radius-sm:    10px;
-            --high:         #ef4444;
-            --medium:       #f59e0b;
-            --low:          #10b981;
-            --transition:   0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg:           #f4ecd8; /* 한지 느낌의 배경 */
+            --surface:      #fcfaf2; /* 덧댄 종이 느낌 */
+            --surface2:     #eaddc6;
+            --primary:      #9b1b30; /* 전통 붉은색 (인주 색) */
+            --primary-h:    #7a1526;
+            --primary-soft: rgba(155, 27, 48, 0.1);
+            --text:         #2b211f; /* 먹물 색상 */
+            --text-2:       #4a3f3c;
+            --text-muted:   #756661;
+            --border:       #8b7355; /* 나무 테두리 색상 */
+            --shadow-sm:    2px 2px 0px rgba(139, 115, 85, 0.2); /* 전통적인 딱딱한 그림자 */
+            --shadow:       4px 4px 0px rgba(139, 115, 85, 0.3);
+            --shadow-lg:    6px 6px 0px rgba(43, 33, 31, 0.4);
+            --radius:       2px; /* 둥근 모서리 대신 각진 한지/나무판 느낌 */
+            --radius-sm:    0px;
+            --high:         #c93737;
+            --medium:       #b8860b;
+            --low:          #2e8b57;
+            --transition:   0.3s ease;
         }
         [data-theme="dark"] {
-            --bg:           #0b1120;
-            --surface:      #1e293b;
-            --surface2:     #141d2d;
-            --primary:      #6366f1;
-            --primary-h:    #818cf8;
-            --primary-soft: rgba(99, 102, 241, 0.15);
-            --text:         #f8fafc;
-            --text-2:       #cbd5e1;
-            --text-muted:   #64748b;
-            --border:       #334155;
-            --shadow-sm:    0 2px 10px rgba(0,0,0,.2);
-            --shadow:       0 10px 30px rgba(0,0,0,.3);
-            --shadow-lg:    0 24px 60px rgba(0,0,0,.5);
+            --bg:           #1a1c20; /* 어두운 밤 */
+            --surface:      #2a2c31;
+            --surface2:     #3a3c42;
+            --primary:      #c74b4b; /* 어둠 속의 홍등 */
+            --primary-h:    #e05c5c;
+            --primary-soft: rgba(199, 75, 75, 0.2);
+            --text:         #e8e4dc; /* 달빛에 비친 종이 색 */
+            --text-2:       #c0b8b0;
+            --text-muted:   #8a827a;
+            --border:       #4f4a45;
+            --shadow-sm:    2px 2px 0px rgba(0,0,0,0.5);
+            --shadow:       4px 4px 0px rgba(0,0,0,0.7);
+            --shadow-lg:    6px 6px 0px rgba(0,0,0,0.9);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', 'Pretendard', system-ui, sans-serif;
+            font-family: 'Gowun Batang', serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            /* 모바일 바텀 바 겹침 방지 (Safe Area 적용) */
             padding: 40px 20px calc(80px + env(safe-area-inset-bottom, 20px));
             transition: background var(--transition), color var(--transition);
+            /* 한지 질감 느낌을 위한 미세한 백그라운드 패턴 (옵션) */
+            background-image: radial-gradient(var(--border) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); border-left: 1px solid var(--border); }
+        ::-webkit-scrollbar-thumb { background: var(--border); }
 
-        .container { max-width: 680px; margin: 0 auto; }
+        .container { max-width: 680px; margin: 0 auto; background: var(--surface); padding: 30px; border: 2px solid var(--border); box-shadow: var(--shadow); position: relative;}
+        
+        /* 모서리 장식 */
+        .container::before, .container::after {
+            content: ''; position: absolute; width: 15px; height: 15px; border: 2px solid var(--primary);
+        }
+        .container::before { top: 5px; left: 5px; border-right: none; border-bottom: none; }
+        .container::after { bottom: 5px; right: 5px; border-left: none; border-top: none; }
 
         /* ── 테마 토글 ── */
         .theme-btn {
-            position: fixed;
-            top: 20px; right: 20px;
+            position: fixed; top: 20px; right: 20px;
             width: 44px; height: 44px;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            background: rgba(var(--surface), 0.8);
-            backdrop-filter: blur(8px);
-            box-shadow: var(--shadow-sm);
-            font-size: 20px;
-            cursor: pointer;
+            border: 2px solid var(--border); background: var(--surface);
+            box-shadow: var(--shadow-sm); font-size: 20px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: all var(--transition);
-            z-index: 50;
+            transition: all var(--transition); z-index: 50;
         }
-        .theme-btn:hover { transform: translateY(-2px) rotate(15deg); box-shadow: var(--shadow); }
+        .theme-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); background: var(--surface2); }
 
         /* ── 헤더 ── */
-        header { text-align: center; margin-bottom: 32px; }
+        header { text-align: center; margin-bottom: 30px; border-bottom: 2px dashed var(--border); padding-bottom: 20px; }
         header h1 {
-            font-size: 32px; font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), #a855f7);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+            font-size: 36px; font-weight: 700; color: var(--text);
+            letter-spacing: 2px;
         }
-        header .subtitle { margin-top: 8px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        header .subtitle { margin-top: 10px; font-size: 16px; color: var(--text-muted); }
+        .quote-box { margin-top: 15px; font-style: italic; color: var(--primary); font-size: 15px; }
 
         /* ── 통계 카드 ── */
-        .stats-row {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 12px; margin-bottom: 24px;
-        }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
         .stat-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow-sm);
-            text-align: center;
+            background: var(--surface2); padding: 16px; text-align: center;
             border: 1px solid var(--border);
-            transition: transform var(--transition);
         }
-        .stat-card:hover { transform: translateY(-2px); }
-        .stat-card .stat-num { font-size: 28px; font-weight: 800; color: var(--primary); }
-        .stat-card .stat-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 4px; }
-        .stat-card.active .stat-num { color: var(--medium); }
-        .stat-card.done .stat-num { color: var(--low); }
+        .stat-card .stat-num { font-size: 28px; font-weight: 700; color: var(--text); }
+        .stat-card .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+        .stat-card.active .stat-num { color: var(--primary); }
+        .stat-card.done .stat-num { color: var(--low); text-decoration: line-through; }
 
         /* ── 진행률 바 ── */
         .progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .progress-bar-bg { flex: 1; height: 10px; background: var(--border); border-radius: 99px; overflow: hidden; }
+        .progress-bar-bg { flex: 1; height: 12px; border: 1px solid var(--border); background: var(--bg); }
         .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #a855f7);
-            border-radius: 99px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%; background: var(--primary);
+            transition: width 0.6s ease;
         }
-        .progress-pct { font-size: 13px; font-weight: 700; color: var(--primary); min-width: 36px; text-align: right; }
+        .progress-pct { font-size: 15px; font-weight: 700; color: var(--primary); min-width: 40px; text-align: right; }
 
         /* ── 입력 폼 카드 ── */
         .form-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 24px; margin-bottom: 24px;
-            border: 1px solid var(--border);
+            background: var(--bg); padding: 24px; margin-bottom: 24px;
+            border: 2px solid var(--border);
         }
-        .form-card h2 {
-            font-size: 12px; font-weight: 700; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
-        }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .form-card h2 { font-size: 18px; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;}
+        .form-card h2::before { content: '📜'; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         .form-grid .span-2 { grid-column: span 2; }
 
         .form-card input, .form-card select {
             width: 100%; padding: 12px 14px;
-            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-            font-size: 14px; font-family: inherit;
-            color: var(--text); background: var(--surface2);
+            border: 1px solid var(--border); border-radius: 0;
+            font-size: 16px; font-family: inherit;
+            color: var(--text); background: var(--surface);
             transition: all 0.2s; outline: none;
         }
-        .form-card input:focus, .form-card select:focus {
-            border-color: var(--primary); background: var(--surface);
-            box-shadow: 0 0 0 3px var(--primary-soft);
-        }
+        .form-card input:focus, .form-card select:focus { border-color: var(--primary); background: var(--surface2); }
 
         .btn-add {
             width: 100%; padding: 14px;
-            border: none; border-radius: var(--radius-sm);
-            background: linear-gradient(135deg, var(--primary), #a855f7);
-            color: #fff; font-size: 15px; font-weight: 700;
-            cursor: pointer; transition: transform 0.1s, opacity 0.2s;
+            border: 2px solid var(--border); background: var(--surface); color: var(--text);
+            font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit;
+            box-shadow: var(--shadow-sm);
         }
-        .btn-add:hover { opacity: 0.9; }
-        .btn-add:active { transform: scale(0.98); }
+        .btn-add:hover { background: var(--primary); color: #fff; box-shadow: var(--shadow); }
 
         /* ── 검색 + 필터 ── */
         .search-filter { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .search-wrap { position: relative; }
         .search-wrap input {
             width: 100%; padding: 12px 14px 12px 42px;
-            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-            font-size: 14px; color: var(--text); background: var(--surface);
-            outline: none; transition: all 0.2s;
+            border: 1px solid var(--border); font-size: 16px; color: var(--text); background: var(--surface); outline: none; font-family: inherit;
         }
-        .search-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
-        .search-wrap .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.5; }
+        .search-wrap input:focus { border-color: var(--primary); }
+        .search-wrap .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); opacity: 0.7; }
 
         .filter-sort-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .filter-tabs { display: flex; gap: 6px; flex: 1; background: var(--surface); padding: 4px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+        .filter-tabs { display: flex; gap: 0; flex: 1; border: 1px solid var(--border); background: var(--surface); }
         .filter-tab {
-            flex: 1; padding: 8px 0; border: none; border-radius: 6px;
-            background: transparent; color: var(--text-2); font-size: 13px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
+            flex: 1; padding: 10px 0; border: none; border-right: 1px solid var(--border);
+            background: transparent; color: var(--text-2); font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
         }
-        .filter-tab.active { background: var(--primary); color: #fff; box-shadow: var(--shadow-sm); }
+        .filter-tab:last-child { border-right: none; }
+        .filter-tab.active { background: var(--text); color: var(--surface); }
         .sort-select {
-            padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-            font-size: 13px; font-weight: 600; color: var(--text); background: var(--surface); outline: none; cursor: pointer;
+            padding: 10px 12px; border: 1px solid var(--border); font-size: 15px; font-weight: 700; 
+            color: var(--text); background: var(--surface); outline: none; cursor: pointer; font-family: inherit;
         }
 
         /* ── 리스트 헤더 ── */
-        .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 0 4px; }
-        .list-header-left { font-size: 14px; color: var(--text-muted); font-weight: 500; }
-        #todo-count { font-weight: 700; color: var(--primary); }
+        .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 0 4px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .list-header-left { font-size: 16px; color: var(--text); font-weight: 700; }
+        #todo-count { color: var(--primary); }
 
-        .btn-bulk-delete {
-            padding: 6px 14px; border: none; border-radius: 8px;
-            background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 12px; font-weight: 700;
-            cursor: pointer; transition: all 0.2s;
+        .list-actions { display: flex; gap: 8px; }
+        .btn-utility {
+            padding: 6px 14px; border: 1px solid var(--border); background: var(--surface);
+            color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.2s;
         }
-        .btn-bulk-delete:hover:not(:disabled) { background: rgba(239, 68, 68, 0.2); }
-        .btn-bulk-delete:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-utility:hover:not(:disabled) { background: var(--text); color: var(--surface); }
+        .btn-utility:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* ── 할 일 아이템 ── */
         #todo-list { list-style: none; }
         li.todo-item {
-            background: var(--surface); border-radius: var(--radius);
-            box-shadow: var(--shadow-sm); padding: 18px; margin-bottom: 12px;
+            background: var(--surface); padding: 18px; margin-bottom: 14px;
             display: flex; align-items: flex-start; gap: 16px;
-            border: 1px solid var(--border);
-            border-left: 6px solid var(--primary);
+            border: 1px solid var(--border); box-shadow: var(--shadow-sm);
             transition: all var(--transition); animation: slideIn 0.3s ease;
+            position: relative;
         }
-        li.todo-item:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
+        /* 책갈피 느낌의 포인트 */
+        li.todo-item::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
         }
+        li.todo-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); background: var(--bg); }
 
-        li.todo-item[data-priority="상"] { border-left-color: var(--high); }
-        li.todo-item[data-priority="중"] { border-left-color: var(--medium); }
-        li.todo-item[data-priority="하"] { border-left-color: var(--low); }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        li.todo-item.completed { opacity: 0.6; border-left-color: var(--border) !important; background: var(--surface2); }
+        li.todo-item[data-priority="어명"]::before { background-color: var(--high); }
+        li.todo-item[data-priority="보통"]::before { background-color: var(--medium); }
+        li.todo-item[data-priority="여유"]::before { background-color: var(--low); }
+
+        li.todo-item.completed { opacity: 0.7; background: var(--surface2); }
+        li.todo-item.completed::before { background-color: var(--border) !important; }
         li.todo-item.completed .todo-title { text-decoration: line-through; color: var(--text-muted); }
 
-        /* 체크박스 커스텀 */
-        .check-wrap { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; }
+        /* 체크박스 커스텀 (도장 느낌) */
+        .check-wrap { position: relative; width: 26px; height: 26px; flex-shrink: 0; margin-top: 2px; }
         .check-wrap input[type="checkbox"] {
-            appearance: none; width: 22px; height: 22px;
-            border: 2px solid var(--border); border-radius: 6px;
+            appearance: none; width: 26px; height: 26px;
+            border: 2px solid var(--border); border-radius: 50%;
             cursor: pointer; background: var(--surface); transition: all 0.2s;
         }
-        .check-wrap input[type="checkbox"]:checked { background: var(--primary); border-color: var(--primary); }
+        .check-wrap input[type="checkbox"]:checked { background: var(--surface); border-color: var(--primary); }
         .check-wrap input[type="checkbox"]:checked::after {
-            content: ''; position: absolute; left: 7px; top: 3px; width: 5px; height: 10px;
-            border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg);
+            content: '완'; position: absolute; left: 4px; top: 2px; font-size: 14px; font-weight: bold; color: var(--primary); font-family: inherit;
         }
 
         .todo-content { flex: 1; min-width: 0; }
-        .todo-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; word-break: break-word; color: var(--text); }
-        .todo-desc  { font-size: 13px; color: var(--text-2); margin-bottom: 10px; word-break: break-word; line-height: 1.4; }
+        .todo-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+        .todo-desc  { font-size: 15px; color: var(--text-2); margin-bottom: 12px; line-height: 1.5; background: var(--surface2); padding: 8px; border-left: 2px solid var(--border);}
 
         /* 뱃지 */
-        .todo-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+        .todo-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; font-size: 13px; font-weight: 700; border: 1px solid var(--border); background: var(--surface); }
         
-        .badge-category { background: var(--surface2); color: var(--text-2); border: 1px solid var(--border); }
-        .badge-high   { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .badge-medium { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .badge-low    { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        
-        .badge-date { background: rgba(99, 102, 241, 0.1); color: var(--primary); font-weight: 600; }
-        .badge-date.overdue  { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .badge-date.today    { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .badge-high   { color: var(--high); border-color: var(--high); }
+        .badge-medium { color: var(--medium); border-color: var(--medium); }
+        .badge-low    { color: var(--low); border-color: var(--low); }
+        .badge-date   { color: var(--text); }
+        .badge-date.overdue  { color: var(--surface); background: var(--high); border-color: var(--high); }
 
         /* 액션 버튼 */
-        .actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-        .actions button {
-            padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
+        .actions { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+        .btn-delete {
+            padding: 6px 12px; border: 1px solid var(--border); background: var(--surface); color: var(--high); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit;
         }
-        .btn-edit   { background: var(--surface2); color: var(--text-2); border: 1px solid var(--border); }
-        .btn-edit:hover { background: var(--border); }
-        .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .btn-delete:hover { background: rgba(239, 68, 68, 0.2); }
+        .btn-delete:hover { background: var(--high); color: var(--surface); }
 
         /* 완료 섹션 구분선 */
-        .section-divider {
-            display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; cursor: pointer; user-select: none;
-        }
-        .section-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
-        .section-divider span { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        .section-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; cursor: pointer; user-select: none; }
+        .section-divider hr { flex: 1; border: none; border-top: 1px dashed var(--border); }
+        .section-divider span { font-size: 14px; font-weight: 700; color: var(--text-muted); }
         .section-divider .toggle-icon { display: inline-block; transition: transform 0.2s; margin-left: 4px; }
         .section-divider.collapsed .toggle-icon { transform: rotate(-90deg); }
 
-        /* 토스트 및 모달 스타일은 기존과 유사하되 약간의 둥글기(Radius)만 조정했습니다. */
-        /* 생략 없이 모두 포함해야 하므로 원본 스타일 구조를 유지하되 변수 적용 */
+        /* 토스트 */
         #toast-container { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; }
-        .toast { background: var(--text); color: var(--surface); padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow-lg); animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1), toastOut 0.3s ease 2.5s forwards; pointer-events: auto; }
-        .toast.success { background: #10b981; color: #fff; }
-        .toast.error   { background: #ef4444; color: #fff; }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes toastOut { to { opacity: 0; transform: translateY(10px) scale(0.9); } }
+        .toast { background: var(--surface); color: var(--text); border: 2px solid var(--border); padding: 14px 28px; font-size: 16px; font-weight: 700; box-shadow: var(--shadow-lg); animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards; font-family: inherit; }
+        .toast.success { border-color: var(--low); border-left: 6px solid var(--low); }
+        .toast.error   { border-color: var(--high); border-left: 6px solid var(--high); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(10px); } }
 
-        /* 반응형 */
         @media (max-width: 480px) {
             .form-grid { grid-template-columns: 1fr; }
             .form-grid .span-2 { grid-column: span 1; }
-            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
         }
     </style>
 </head>
 <body>
-    <button class="theme-btn" id="theme-toggle" title="다크/라이트 모드 전환">🌙</button>
+    <button class="theme-btn" id="theme-toggle" title="주야간 전환">🌙</button>
 
     <div class="container">
         <header>
-            <h1>✅ To-Do List</h1>
-            <p class="subtitle">v5.1.0 — 카테고리 지원 및 모바일 UI 최적화</p>
+            <h1>일과 기록장</h1>
+            <p class="subtitle">조선 선비의 하루를 기록하다</p>
+            <p class="quote-box" id="quote-box">"뜻이 있는 곳에 길이 있나니..."</p>
         </header>
 
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-num" id="stat-total">0</div>
-                <div class="stat-label">전체</div>
+                <div class="stat-label">총 업무</div>
             </div>
             <div class="stat-card active">
                 <div class="stat-num" id="stat-active">0</div>
-                <div class="stat-label">진행중</div>
+                <div class="stat-label">남은 일</div>
             </div>
             <div class="stat-card done">
                 <div class="stat-num" id="stat-done">0</div>
-                <div class="stat-label">완료</div>
+                <div class="stat-label">성사됨</div>
             </div>
         </div>
 
@@ -318,63 +288,75 @@
         </div>
 
         <div class="form-card">
-            <h2>새 할 일 추가</h2>
+            <h2>어명 및 일과 하명하기</h2>
             <form id="todo-form">
                 <div class="form-grid">
-                    <input class="span-2" type="text" id="title" placeholder="할 일 제목을 입력하세요" required>
-                    <input class="span-2" type="text" id="description" placeholder="상세 설명 (선택)">
+                    <input class="span-2" type="text" id="title" placeholder="무엇을 이룩하시겠소?" required>
+                    <input class="span-2" type="text" id="description" placeholder="상세한 내막을 적어보시오 (선택)">
                     
-                    <!-- 카테고리 선택 추가 -->
                     <select id="category">
-                        <option value="💻 개발">💻 개발</option>
-                        <option value="📚 학업">📚 학업</option>
-                        <option value="☕ 일상" selected>☕ 일상</option>
+                        <option value="🏛️ 관아">🏛️ 관아 (업무)</option>
+                        <option value="📖 서당">📖 서당 (학업)</option>
+                        <option value="🍶 저잣거리" selected>🍶 저잣거리 (일상)</option>
                     </select>
                     
                     <select id="priority">
-                        <option value="상">🔴 우선순위: 상</option>
-                        <option value="중" selected>🟠 우선순위: 중</option>
-                        <option value="하">🟢 우선순위: 하</option>
+                        <option value="어명">🔴 어명 (매우 급함)</option>
+                        <option value="보통" selected>🟠 보통 (일반)</option>
+                        <option value="여유">🟢 여유 (천천히)</option>
                     </select>
-                    <input class="span-2" type="date" id="due_date">
+                    <input class="span-2" type="date" id="due_date" title="기한일">
                 </div>
-                <button type="submit" class="btn-add">＋ 추가하기</button>
+                <button type="submit" class="btn-add">붓을 들어 기록하기</button>
             </form>
         </div>
 
         <div class="search-filter">
             <div class="search-wrap">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="search-input" placeholder="검색 — 제목, 설명으로 찾기">
+                <input type="text" id="search-input" placeholder="기록을 찾아보시겠소?">
             </div>
             <div class="filter-sort-row">
                 <div class="filter-tabs">
-                    <button class="filter-tab active" data-filter="all">전체</button>
-                    <button class="filter-tab" data-filter="active">진행중</button>
-                    <button class="filter-tab" data-filter="done">완료</button>
+                    <button class="filter-tab active" data-filter="all">두루마리 전체</button>
+                    <button class="filter-tab" data-filter="active">수행중</button>
+                    <button class="filter-tab" data-filter="done">성사됨</button>
                 </div>
                 <select class="sort-select" id="sort-select">
-                    <option value="priority">정렬: 우선순위</option>
-                    <option value="duedate">정렬: 마감일</option>
-                    <option value="created">정렬: 등록순</option>
+                    <option value="priority">정렬: 지엄한 순</option>
+                    <option value="duedate">정렬: 기한 임박순</option>
+                    <option value="created">정렬: 기록된 순</option>
                 </select>
             </div>
         </div>
 
         <div class="list-header">
-            <span class="list-header-left">남은 할 일 <strong id="todo-count">0</strong>개</span>
-            <button class="btn-bulk-delete" id="bulk-delete-btn" disabled>완료 일괄 삭제</button>
+            <span class="list-header-left">받들어 모실 일 <strong id="todo-count">0</strong>개</span>
+            <div class="list-actions">
+                <button class="btn-utility" id="export-btn">💾 두루마리 저장</button>
+                <button class="btn-utility" id="bulk-delete-btn" disabled>성사된 일 지우기</button>
+            </div>
         </div>
 
         <ul id="todo-list"></ul>
     </div>
 
-    <!-- 토스트 컨테이너 -->
     <div id="toast-container"></div>
 
     <script>
-        const PRIORITY_ORDER = { "상": 0, "중": 1, "하": 2 };
-        const PRIORITY_CLASS = { "상": "badge-high", "중": "badge-medium", "하": "badge-low" };
+        const PRIORITY_ORDER = { "어명": 0, "보통": 1, "여유": 2 };
+        const PRIORITY_CLASS = { "어명": "badge-high", "보통": "badge-medium", "여유": "badge-low" };
+        
+        // 추가 기능: 명언 리스트
+        const quotes = [
+            "가는 말이 고와야 오는 말이 곱다.",
+            "천리길도 한 걸음부터 시작되는 법.",
+            "시작이 반이니, 붓을 든 것만으로도 장하오.",
+            "티끌 모아 태산이 되니, 작은 일도 소홀히 말라.",
+            "뜻이 있는 곳에 반드시 길이 있느니라.",
+            "일일일신 우일신(日日新又日新) - 날마다 새로워져라."
+        ];
+        document.getElementById('quote-box').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
         let allTodos = [];
         let currentFilter = 'all';
@@ -382,7 +364,6 @@
         let searchQuery = '';
         let completedCollapsed = false;
 
-        // 테마 로직 유지
         const themeBtn = document.getElementById('theme-toggle');
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
@@ -411,10 +392,9 @@
             const now = new Date(); now.setHours(0,0,0,0);
             const due = new Date(dateStr); due.setHours(0,0,0,0);
             const diff = Math.round((due - now) / 86400000);
-            return diff === 0 ? 'D-Day' : diff > 0 ? `D-${diff}` : `D+${Math.abs(diff)}`;
+            return diff === 0 ? '오늘까지요' : diff > 0 ? `기한 ${diff}일 전` : `기한 ${Math.abs(diff)}일 지남`;
         }
 
-        // 기존 렌더링 및 통계 함수 생략 없이 축약 통합
         function updateStats(todos) {
             const total = todos.length;
             const done = todos.filter(t => t.completed).length;
@@ -459,7 +439,7 @@
             if (done.length) {
                 const divider = document.createElement('div');
                 divider.className = 'section-divider' + (completedCollapsed ? ' collapsed' : '');
-                divider.innerHTML = `<hr><span>완료 ${done.length}개 <span class="toggle-icon">▼</span></span><hr>`;
+                divider.innerHTML = `<hr><span>성사된 일 ${done.length}개 <span class="toggle-icon">▼</span></span><hr>`;
                 divider.onclick = () => {
                     completedCollapsed = !completedCollapsed;
                     divider.classList.toggle('collapsed', completedCollapsed);
@@ -477,7 +457,7 @@
         function createItem(todo) {
             const li = document.createElement('li');
             li.className = 'todo-item' + (todo.completed ? ' completed' : '');
-            li.dataset.priority = todo.priority ?? '중';
+            li.dataset.priority = todo.priority ?? '보통';
 
             li.innerHTML = `
                 <div class="check-wrap">
@@ -485,22 +465,20 @@
                 </div>
                 <div class="todo-content">
                     <div class="todo-title">${todo.title}</div>
-                    ${todo.description ? `<div class="todo-desc">${todo.description}</div>` : ''}
+                    ${todo.description ? `<div class="todo-desc">↳ ${todo.description}</div>` : ''}
                     <div class="todo-meta">
-                        <!-- 카테고리 뱃지 렌더링 추가 -->
-                        ${todo.category ? `<span class="badge badge-category">${todo.category}</span>` : ''}
-                        <span class="badge ${PRIORITY_CLASS[todo.priority ?? '중']}">${todo.priority === '상' ? '🔴' : todo.priority === '중' ? '🟠' : '🟢'} ${todo.priority ?? '중'}</span>
+                        ${todo.category ? `<span class="badge">[ ${todo.category} ]</span>` : ''}
+                        <span class="badge ${PRIORITY_CLASS[todo.priority ?? '보통']}">${todo.priority}</span>
                         ${todo.due_date ? `<span class="badge badge-date ${!todo.completed && todo.due_date < todayStr() ? 'overdue' : ''}">📅 ${todo.due_date.replace(/-/g, '.')} (${dday(todo.due_date)})</span>` : ''}
                     </div>
                 </div>
                 <div class="actions">
-                    <button class="btn-delete" onclick="deleteTodo(${todo.id})">삭제</button>
+                    <button class="btn-delete" onclick="deleteTodo(${todo.id})">파기(삭제)</button>
                 </div>
             `;
             return li;
         }
 
-        // 백엔드 통신 API
         async function fetchTodos() {
             try {
                 const res = await fetch('/todos');
@@ -508,7 +486,6 @@
                 renderTodos(allTodos);
             } catch (e) {
                 console.error('API 연동 필요', e);
-                // 더미 데이터 (테스트용)
                 if(allTodos.length === 0) renderTodos(allTodos); 
             }
         }
@@ -519,7 +496,7 @@
                 id: Date.now(),
                 title: document.getElementById('title').value.trim(),
                 description: document.getElementById('description').value.trim(),
-                category: document.getElementById('category').value, // 카테고리 매핑
+                category: document.getElementById('category').value,
                 due_date: document.getElementById('due_date').value || null,
                 priority: document.getElementById('priority').value,
                 completed: false
@@ -527,13 +504,14 @@
             
             try {
                 await fetch('/todos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            } catch(e) { allTodos.push(payload); } // 데모용 로직 보완
+            } catch(e) { allTodos.push(payload); } 
             
             e.target.reset();
-            document.getElementById('category').value = '☕ 일상';
-            document.getElementById('priority').value = '중';
-            showToast('➕ 할 일이 추가되었습니다.', 'success');
+            document.getElementById('category').value = '🍶 저잣거리';
+            document.getElementById('priority').value = '보통';
+            showToast('📜 명부에 새로운 일이 기록되었소.', 'success');
             await fetchTodos();
+            renderTodos(allTodos); // 프론트엔드 즉각 반영
         });
 
         async function toggleComplete(id) {
@@ -542,32 +520,63 @@
             try {
                 await fetch(`/todos/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(todo) });
             } catch(e) {}
-            showToast(todo.completed ? '🎉 완료! 수고하셨습니다.' : '✅ 다시 진행중으로 변경했습니다.', 'success');
+            showToast(todo.completed ? '🎉 훌륭히 성사시키셨소!' : '✍️ 다시 먹을 갈고 시작합시다.', 'success');
             renderTodos(allTodos);
         }
 
         async function deleteTodo(id) {
-            if(!confirm('삭제하시겠습니까?')) return;
+            if(!confirm('이 기록을 파기하시겠소?')) return;
             try { await fetch(`/todos/${id}`, { method: 'DELETE' }); } catch(e) {
                 allTodos = allTodos.filter(t => t.id !== id);
             }
-            showToast('🗑️ 삭제되었습니다.', 'error');
+            showToast('🔥 기록이 불태워졌소.', 'error');
             renderTodos(allTodos);
         }
 
         document.getElementById('bulk-delete-btn').onclick = async () => {
-            if(!confirm('완료된 항목을 모두 삭제하시겠습니까?')) return;
+            if(!confirm('성사된 일들을 모두 파기하시겠소?')) return;
             const doneItems = allTodos.filter(t => t.completed);
             try {
                 await Promise.all(doneItems.map(t => fetch(`/todos/${t.id}`, { method: 'DELETE' })));
             } catch(e) {
                 allTodos = allTodos.filter(t => !t.completed);
             }
-            showToast('🗑️ 일괄 삭제 완료', 'error');
+            showToast('🔥 성사된 기록들을 모두 정리하였소.', 'error');
             renderTodos(allTodos);
         };
 
-        // 필터 & 정렬 이벤트
+        // 추가 기능: 두루마리 저장 (TXT Export)
+        document.getElementById('export-btn').addEventListener('click', () => {
+            if (allTodos.length === 0) {
+                showToast('기록된 일과가 없소이다.', 'error');
+                return;
+            }
+            
+            let content = "📜 조선 선비의 일과 기록장 📜\n\n";
+            const active = allTodos.filter(t => !t.completed);
+            const done = allTodos.filter(t => t.completed);
+
+            content += "=== ⚔️ 받들어 모실 일 ===\n";
+            active.forEach(t => {
+                content += `[${t.category}] ${t.title} (${t.priority}) - 기한: ${t.due_date || '없음'}\n`;
+                if(t.description) content += `  ↳ 내막: ${t.description}\n`;
+            });
+
+            content += "\n=== 💮 성사된 일 ===\n";
+            done.forEach(t => {
+                content += `[완료] ${t.title}\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `일과기록장_${todayStr()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('💾 두루마리(텍스트 파일)로 저장되었소.', 'success');
+        });
+
         document.getElementById('search-input').addEventListener('input', e => { searchQuery = e.target.value.trim(); renderTodos(allTodos); });
         document.querySelectorAll('.filter-tab').forEach(btn => {
             btn.addEventListener('click', () => {
