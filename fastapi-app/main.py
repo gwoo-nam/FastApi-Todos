@@ -9,7 +9,7 @@ from multiprocessing import Queue
 from os import getenv
 from prometheus_fastapi_instrumentator import Instrumentator
 from logging_loki import LokiQueueHandler
-
+from typing import Optional  # 이 줄이 빠져있었습니다!
 app = FastAPI()
 
 # --- 모니터링 설정 (Prometheus & Loki) ---

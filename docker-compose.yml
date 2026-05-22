@@ -101,6 +101,8 @@ services:
     container_name: loki
     ports:
       - "3100:3100"
+    networks:      # 이 부분을 추가하세요
+      - loadtest-net
 # 파일 최하단에 네트워크망 자체를 정의하는 구문 필수 추가
 networks:
   loadtest-net:
